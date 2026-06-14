@@ -34,6 +34,15 @@ module.exports = {
           80: "#1F2937",
           90: "#111827",
         },
+        // Moonlark Studio brand palette
+        moonlark: {
+          cream: "#F5EFE6",
+          sand: "#E8DDCE",
+          sage: "#9CAF88",
+          rose: "#C98A8A",
+          plum: "#6B5B73",
+          ink: "#3D3640",
+        },
       },
       borderRadius: {
         none: "0px",
@@ -69,6 +78,7 @@ module.exports = {
           "Ubuntu",
           "sans-serif",
         ],
+        display: ["Fraunces", "Georgia", "serif"],
       },
       keyframes: {
         ring: {

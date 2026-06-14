@@ -6,9 +6,9 @@ import { listCollections } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
 
 export const metadata: Metadata = {
-  title: "Medusa Next.js Starter Template",
+  title: "Moonlark Studio — Handmade Crochet",
   description:
-    "A performant frontend ecommerce starter template with Next.js 15 and Medusa.",
+    "Handmade crochet pieces — amigurumi, blankets, accessories, and custom made-to-order commissions from Moonlark Studio.",
 }
 
 export default async function Home(props: {

@@ -315,8 +315,12 @@ export default async function seedDemoData({ container }: ExecArgs) {
   const catId = (name: string) =>
     categoryResult.find((cat) => cat.name === name)!.id;
 
-  const placeholder = (text: string) =>
-    `https://placehold.co/800x800/efe7df/6b5b73?text=${encodeURIComponent(text)}`;
+  // Sample images live in the storefront's public/samples/ folder, named by
+  // product handle. Drop your own photos there (same filenames) to replace
+  // these. They're served by the storefront, so we reference its URL.
+  const STOREFRONT_URL =
+    process.env.STOREFRONT_URL || "http://localhost:8000"
+  const sample = (handle: string) => `${STOREFRONT_URL}/samples/${handle}.png`;
 
   await createProductsWorkflow(container).run({
     input: {
@@ -330,7 +334,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
           weight: 150,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          images: [{ url: placeholder("Amigurumi Bunny") }],
+          images: [{ url: sample("amigurumi-bunny") }],
           options: [{ title: "Color", values: ["Cream", "Sage", "Dusty Rose"] }],
           variants: [
             {
@@ -363,7 +367,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
           weight: 1800,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          images: [{ url: placeholder("Throw Blanket") }],
+          images: [{ url: sample("chunky-throw-blanket") }],
           options: [
             { title: "Size", values: ["Throw", "Large"] },
             { title: "Color", values: ["Oatmeal", "Charcoal"] },
@@ -405,7 +409,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
           weight: 120,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          images: [{ url: placeholder("Beanie") }],
+          images: [{ url: sample("crocheted-beanie") }],
           options: [{ title: "Size", values: ["S/M", "L/XL"] }],
           variants: [
             {
@@ -432,7 +436,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
           weight: 300,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          images: [{ url: placeholder("Made to Order") }],
+          images: [{ url: sample("custom-made-to-order") }],
           options: [{ title: "Deposit", values: ["Small", "Medium", "Large"] }],
           variants: [
             {

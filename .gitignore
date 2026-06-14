@@ -8,6 +8,9 @@ node_modules/
 **/.env
 !**/.env.template
 
+# Local preview tooling (portable Postgres for no-account previews)
+.localdev/
+
 # Build output
 .medusa/
 **/dist/
