@@ -1,0 +1,8 @@
+node_modules
+.medusa
+.git
+.env
+.env.*
+!.env.template
+npm-debug.log
+dist

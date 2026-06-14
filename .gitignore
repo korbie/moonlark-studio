@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Env files (never commit secrets — only the .env.template files are tracked)
+.env
+.env.local
+.env.*.local
+**/.env
+!**/.env.template
+
+# Build output
+.medusa/
+**/dist/
+storefront/.next/
+storefront/out/
+
+# Logs / misc
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+.idea/
+*.tsbuildinfo
