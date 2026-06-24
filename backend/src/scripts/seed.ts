@@ -305,8 +305,6 @@ export default async function seedDemoData({ container }: ExecArgs) {
     input: {
       product_categories: [
         { name: "Amigurumi", is_active: true },
-        { name: "Blankets & Throws", is_active: true },
-        { name: "Accessories", is_active: true },
         { name: "Made to Order", is_active: true },
       ],
     },
@@ -320,109 +318,72 @@ export default async function seedDemoData({ container }: ExecArgs) {
   // these. They're served by the storefront, so we reference its URL.
   const STOREFRONT_URL =
     process.env.STOREFRONT_URL || "http://localhost:8000"
-  const sample = (handle: string) => `${STOREFRONT_URL}/samples/${handle}.png`;
+  const sample = (handle: string) => `${STOREFRONT_URL}/samples/${handle}.png`
+  // Real product photos dropped into public/samples (exact filenames).
+  const photo = (file: string) => `${STOREFRONT_URL}/samples/${file}`;
 
   await createProductsWorkflow(container).run({
     input: {
       products: [
         {
-          title: "Amigurumi Bunny",
+          title: "Amigurumi Bear",
           category_ids: [catId("Amigurumi")],
           description:
-            "A soft, hand-crocheted bunny made with cotton yarn. Each one is made by hand, so no two are exactly alike.",
-          handle: "amigurumi-bunny",
+            "A soft, hand-crocheted bear made with cotton yarn. Each one is made by hand, so no two are exactly alike.",
+          handle: "amigurumi-bear",
           weight: 150,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          images: [{ url: sample("amigurumi-bunny") }],
-          options: [{ title: "Color", values: ["Cream", "Sage", "Dusty Rose"] }],
+          images: [{ url: photo("bear.jpg") }],
+          options: [{ title: "Size", values: ["One size"] }],
           variants: [
             {
-              title: "Cream",
-              sku: "BUNNY-CREAM",
-              options: { Color: "Cream" },
-              prices: [{ amount: 28, currency_code: "usd" }],
-            },
-            {
-              title: "Sage",
-              sku: "BUNNY-SAGE",
-              options: { Color: "Sage" },
-              prices: [{ amount: 28, currency_code: "usd" }],
-            },
-            {
-              title: "Dusty Rose",
-              sku: "BUNNY-ROSE",
-              options: { Color: "Dusty Rose" },
+              title: "One size",
+              sku: "AMI-BEAR",
+              options: { Size: "One size" },
               prices: [{ amount: 28, currency_code: "usd" }],
             },
           ],
           sales_channels: [{ id: defaultSalesChannel[0].id }],
         },
         {
-          title: "Chunky Knit Throw Blanket",
-          category_ids: [catId("Blankets & Throws")],
+          title: "Amigurumi Dinosaur",
+          category_ids: [catId("Amigurumi")],
           description:
-            "A cozy, chunky hand-crocheted throw. Perfect weight for the couch on a cool evening.",
-          handle: "chunky-throw-blanket",
-          weight: 1800,
+            "A friendly hand-crocheted dinosaur made with cotton yarn. Each one is made by hand, so no two are exactly alike.",
+          handle: "amigurumi-dinosaur",
+          weight: 160,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          images: [{ url: sample("chunky-throw-blanket") }],
-          options: [
-            { title: "Size", values: ["Throw", "Large"] },
-            { title: "Color", values: ["Oatmeal", "Charcoal"] },
-          ],
+          images: [{ url: photo("dino.jpg") }],
+          options: [{ title: "Size", values: ["One size"] }],
           variants: [
             {
-              title: "Throw / Oatmeal",
-              sku: "THROW-T-OAT",
-              options: { Size: "Throw", Color: "Oatmeal" },
-              prices: [{ amount: 95, currency_code: "usd" }],
-            },
-            {
-              title: "Throw / Charcoal",
-              sku: "THROW-T-CHAR",
-              options: { Size: "Throw", Color: "Charcoal" },
-              prices: [{ amount: 95, currency_code: "usd" }],
-            },
-            {
-              title: "Large / Oatmeal",
-              sku: "THROW-L-OAT",
-              options: { Size: "Large", Color: "Oatmeal" },
-              prices: [{ amount: 140, currency_code: "usd" }],
-            },
-            {
-              title: "Large / Charcoal",
-              sku: "THROW-L-CHAR",
-              options: { Size: "Large", Color: "Charcoal" },
-              prices: [{ amount: 140, currency_code: "usd" }],
+              title: "One size",
+              sku: "AMI-DINO",
+              options: { Size: "One size" },
+              prices: [{ amount: 30, currency_code: "usd" }],
             },
           ],
           sales_channels: [{ id: defaultSalesChannel[0].id }],
         },
         {
-          title: "Crocheted Beanie",
-          category_ids: [catId("Accessories")],
+          title: "Amigurumi Ice Cream",
+          category_ids: [catId("Amigurumi")],
           description:
-            "A warm, ribbed beanie crocheted with soft wool-blend yarn.",
-          handle: "crocheted-beanie",
+            "A sweet hand-crocheted ice cream cone — a playful amigurumi made with cotton yarn.",
+          handle: "amigurumi-ice-cream",
           weight: 120,
           status: ProductStatus.PUBLISHED,
           shipping_profile_id: shippingProfile.id,
-          images: [{ url: sample("crocheted-beanie") }],
-          options: [{ title: "Size", values: ["S/M", "L/XL"] }],
+          images: [{ url: photo("icecream.jpg") }],
+          options: [{ title: "Size", values: ["One size"] }],
           variants: [
             {
-              title: "S/M",
-              sku: "BEANIE-SM",
-              options: { Size: "S/M" },
-              prices: [{ amount: 32, currency_code: "usd" }],
-            },
-            {
-              title: "L/XL",
-              sku: "BEANIE-LXL",
-              options: { Size: "L/XL" },
-              prices: [{ amount: 32, currency_code: "usd" }],
+              title: "One size",
+              sku: "AMI-ICECREAM",
+              options: { Size: "One size" },
+              prices: [{ amount: 24, currency_code: "usd" }],
             },
           ],
           sales_channels: [{ id: defaultSalesChannel[0].id }],
