@@ -33,17 +33,17 @@ ingress:
   rules:
     # Medusa backend paths
     - match: { path: { prefix: /store } }
-      component: { name: backend }
+      component: { name: backend, preserve_path_prefix: true }
     - match: { path: { prefix: /admin } }
-      component: { name: backend }
+      component: { name: backend, preserve_path_prefix: true }
     - match: { path: { prefix: /auth } }
-      component: { name: backend }
+      component: { name: backend, preserve_path_prefix: true }
     - match: { path: { prefix: /hooks } }
-      component: { name: backend }
+      component: { name: backend, preserve_path_prefix: true }
     - match: { path: { prefix: /health } }
-      component: { name: backend }
+      component: { name: backend, preserve_path_prefix: true }
     - match: { path: { prefix: /app } }
-      component: { name: backend }
+      component: { name: backend, preserve_path_prefix: true }
     # Everything else -> storefront
     - match: { path: { prefix: / } }
       component: { name: storefront }
