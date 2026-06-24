@@ -6,9 +6,11 @@ This is a custom store built on the **cost-minimized stack**: a Medusa v2
 commerce backend + a Next.js storefront, deployed to DigitalOcean App Platform,
 using free external tiers for the database, cache, and image storage.
 
-> ⚠️ **Everything is placeholders.** No domain, DigitalOcean app, database,
-> Stripe account, or image bucket exists yet. This repo is the scaffold; the
-> steps below provision the real services and fill in the blanks.
+> 🚀 **Launch in progress (2026-06-24).** Domain, Neon DB, Cloudflare R2, Resend
+> email, and a DigitalOcean app are all provisioned; Stripe is on test keys. See
+> **[LAUNCH.md](./LAUNCH.md)** for current status, remaining steps, and the deploy
+> runbook. Real credentials live in the gitignored `.localdev/CREDENTIALS.md`.
+> The env templates below remain the reference for what each variable is.
 
 ---
 
