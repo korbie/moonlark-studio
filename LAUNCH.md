@@ -1,8 +1,10 @@
 # Moonlark Studio — Launch Status & Runbook
 
-Living checklist of getting moonlarkstudio.com live. **No secrets here** — all
-real credentials (DB URL, API keys, tokens, prod admin password, DO app ID) live
-in the gitignored `.localdev/CREDENTIALS.md`.
+**🟢 LIVE at https://moonlarkstudio.com** (custom domain + HTTPS, on DigitalOcean
+App Platform). Not yet taking real payments (Stripe still in TEST mode).
+
+Living checklist. **No secrets here** — all real credentials (DB URL, API keys,
+tokens, prod admin password, DO app ID) live in gitignored `.localdev/CREDENTIALS.md`.
 
 _Last updated: 2026-06-24._
 
@@ -23,18 +25,25 @@ External free tiers: **Neon** (Postgres), **Cloudflare R2** (images), **Resend**
 | Resend (email) | ✅ Done | provider `backend/src/modules/resend` + `order.placed` subscriber; domain verified; from `orders@moonlarkstudio.com` |
 | Stripe | 🟡 Test only | TEST keys wired; live keys + webhook pending (go-live) |
 | GitHub | ✅ Done | `github.com/korbie/moonlark-studio` (`main`), SSH deploy key |
-| DigitalOcean app | 🟡 Deploying | app created; first build iterating (see below) |
-| Custom domain on app | ⬜ Todo | add `moonlarkstudio.com` after first deploy is green |
+| DigitalOcean app | ✅ Live | app `6d8be906...`; `deploy_on_push` auto-deploys |
+| Custom domain on app | ✅ Live | `moonlarkstudio.com` (PRIMARY) + `www`, HTTPS issued; Cloudflare CNAMEs (DNS only) |
+| Storefront pages | ✅ Working | home/store/product/category all 200; thumbnails load |
+| Auto-revalidation | ✅ Done | catalog reads revalidate every 30s (admin edits show w/o redeploy) |
 | Real products/photos | ⬜ Todo | add via admin (uploads to R2) |
 | Test purchase | ⬜ Todo | end-to-end with Stripe |
 
 ## Remaining steps (in order)
-1. **First DO deploy ACTIVE** on the `*.ondigitalocean.app` URL; smoke-test storefront + `/app` admin.
-2. **Custom domain:** add `moonlarkstudio.com` (+`www`) to the DO app; add the CNAME/ALIAS DO shows to Cloudflare DNS; DO auto-provisions HTTPS. Then the `${APP_URL}`-based env vars resolve to the real domain on redeploy.
-3. **Stripe go-live:** activate Stripe account (business/bank/tax) → swap test keys for `pk_live_`/`sk_live_` → create webhook at `https://moonlarkstudio.com/hooks/payment/stripe_stripe` → set `STRIPE_WEBHOOK_SECRET` → enable Stripe on the region in admin.
-4. **Real catalog:** replace seeded sample products; upload real photos (go to R2); set inventory + shipping rates; sales-tax decision.
-5. **Test purchase** with a real card, then refund. Verify order email + inventory decrement.
-6. Optional: legal/policy pages, analytics, DB backup habit; in-person POS (Square/Stripe Tap to Pay) for craft fairs.
+1. **Stripe go-live:** activate Stripe account (business/bank/tax) → swap test keys for `pk_live_`/`sk_live_` (in `.localdev/app.deploy.yaml` + `app.yaml`) → `doctl apps update` → create webhook at `https://moonlarkstudio.com/hooks/payment/stripe_stripe` → set `STRIPE_WEBHOOK_SECRET` → enable Stripe on the region in admin.
+2. **Real catalog:** replace seeded sample products; upload real photos (→ R2); set inventory + shipping rates; sales-tax decision. (Inventory: enable "Manage inventory" on a product **variant** — Medusa auto-creates/links the inventory item; don't create standalone inventory items.)
+3. **Test purchase** with a real card, then refund. Verify order email + inventory decrement.
+4. Optional: legal/policy pages, analytics, DB backup habit; in-person POS (Square/Stripe Tap to Pay) for craft fairs.
+
+## Deploy issues already fixed (don't reintroduce)
+- Storefront `Dockerfile` declares `ARG`/`ENV` for build-time vars (DO passes them as build args).
+- product/category/collection pages are `force-dynamic` and their `generateStaticParams` fail soft (backend unreachable at build).
+- Backend ingress rules use `preserve_path_prefix: true` (DO strips the prefix otherwise → 404s).
+- `next.config.js` image allowlist includes `images.moonlarkstudio.com` + `moonlarkstudio.com`.
+- Catalog reads revalidate every 30s via `getCacheOptions` in `storefront/src/lib/data/cookies.ts`.
 
 ## How deploys work (day-to-day)
 - **Content** (products, photos, prices, inventory): in the admin at `/app` — no deploy.
