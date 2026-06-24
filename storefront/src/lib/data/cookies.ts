@@ -33,20 +33,35 @@ export const getCacheTag = async (tag: string): Promise<string> => {
   }
 }
 
+// Catalog data should reflect admin changes promptly (new/edited/deleted
+// products, categories, collections). These reads are cached but revalidated
+// on this interval (seconds) so changes appear without a redeploy. Cart,
+// customer, region, etc. keep their default (tag-based) caching.
+const REVALIDATE_TAGS: Record<string, number> = {
+  products: 30,
+  categories: 30,
+  collections: 30,
+}
+
 export const getCacheOptions = async (
   tag: string
-): Promise<{ tags: string[] } | {}> => {
+): Promise<{ tags?: string[]; revalidate?: number } | {}> => {
   if (typeof window !== "undefined") {
     return {}
   }
 
   const cacheTag = await getCacheTag(tag)
+  const revalidate = REVALIDATE_TAGS[tag]
 
-  if (!cacheTag) {
-    return {}
+  const options: { tags?: string[]; revalidate?: number } = {}
+  if (cacheTag) {
+    options.tags = [`${cacheTag}`]
+  }
+  if (revalidate !== undefined) {
+    options.revalidate = revalidate
   }
 
-  return { tags: [`${cacheTag}`] }
+  return options
 }
 
 export const setAuthToken = async (token: string) => {
