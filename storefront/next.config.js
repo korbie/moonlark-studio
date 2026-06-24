@@ -39,9 +39,7 @@ const nextConfig = {
         protocol: "https",
         hostname: "placehold.co",
       },
-      // Cloudflare R2 — covers the dev URL and the S3 API endpoint. If you
-      // serve images from a custom domain (e.g. images.moonlarkstudio.com),
-      // add that hostname here too.
+      // Cloudflare R2 — dev URL + S3 API endpoint.
       {
         protocol: "https",
         hostname: "**.r2.dev",
@@ -49,6 +47,20 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "**.r2.cloudflarestorage.com",
+      },
+      // R2 custom domain for real product photos uploaded via the admin.
+      {
+        protocol: "https",
+        hostname: "images.moonlarkstudio.com",
+      },
+      // Storefront's own domain (the seed serves sample images from /samples).
+      {
+        protocol: "https",
+        hostname: "moonlarkstudio.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.moonlarkstudio.com",
       },
       {
         protocol: "https",
