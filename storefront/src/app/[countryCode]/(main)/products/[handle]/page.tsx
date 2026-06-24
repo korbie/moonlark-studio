@@ -5,6 +5,10 @@ import { getRegion, listRegions } from "@lib/data/regions"
 import ProductTemplate from "@modules/products/templates"
 import { HttpTypes } from "@medusajs/types"
 
+// Render per-request: the Medusa data layer reads cookies, which can't run
+// during static generation (would throw DYNAMIC_SERVER_USAGE -> 500).
+export const dynamic = "force-dynamic"
+
 type Props = {
   params: Promise<{ countryCode: string; handle: string }>
   searchParams: Promise<{ v_id?: string }>

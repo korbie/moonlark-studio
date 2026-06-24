@@ -7,6 +7,10 @@ import { StoreCollection, StoreRegion } from "@medusajs/types"
 import CollectionTemplate from "@modules/collections/templates"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 
+// Render per-request: the Medusa data layer reads cookies, which can't run
+// during static generation (would throw DYNAMIC_SERVER_USAGE -> 500).
+export const dynamic = "force-dynamic"
+
 type Props = {
   params: Promise<{ handle: string; countryCode: string }>
   searchParams: Promise<{
