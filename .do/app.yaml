@@ -55,7 +55,7 @@ services:
     source_dir: backend
     # Replace with your repo. Also supports `gitlab:` or a generic `git:` block.
     github:
-      repo: YOUR_GITHUB_USER/moonlark-studio
+      repo: korbie/moonlark-studio
       branch: main
       deploy_on_push: true
     http_port: 9000
@@ -120,13 +120,21 @@ services:
         scope: RUN_TIME
         type: SECRET
         value: PLACEHOLDER_STRIPE_WEBHOOK_SECRET
+      - key: RESEND_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+        value: PLACEHOLDER_RESEND_API_KEY
+      - key: RESEND_FROM
+        scope: RUN_TIME
+        # Requires moonlarkstudio.com verified in Resend before customers get mail
+        value: Moonlark Studio <orders@moonlarkstudio.com>
 
   # --------------------------------------------------------------------------
   - name: storefront
     dockerfile_path: storefront/Dockerfile
     source_dir: storefront
     github:
-      repo: YOUR_GITHUB_USER/moonlark-studio
+      repo: korbie/moonlark-studio
       branch: main
       deploy_on_push: true
     http_port: 8000
@@ -146,10 +154,11 @@ services:
         value: us
       - key: NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
         scope: RUN_AND_BUILD_TIME
-        value: PLACEHOLDER_PUBLISHABLE_KEY
+        value: pk_03799dac631cc3dcc39c66d103992d08a74c8973855e648429976ad202c29a74
       - key: NEXT_PUBLIC_STRIPE_KEY
         scope: RUN_AND_BUILD_TIME
-        value: PLACEHOLDER_STRIPE_PUBLISHABLE_KEY
+        # TEST key — swap to pk_live_... at go-live
+        value: pk_test_51TlhcuPLtnxXHeNTxRbdlioqWVFqKD6qyuqnEF4UJSUqPYfeS1CCkpPwufn5e4IiUda4gzHi6Qf4q2kGraqodJXS00Arw4yMhz
       - key: REVALIDATE_SECRET
         scope: RUN_AND_BUILD_TIME
         type: SECRET

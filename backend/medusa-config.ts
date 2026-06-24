@@ -19,6 +19,32 @@ loadEnv(process.env.NODE_ENV || "development", process.cwd())
 
 const REDIS_URL = process.env.REDIS_URL
 const isProd = process.env.NODE_ENV === "production"
+const RESEND_API_KEY = process.env.RESEND_API_KEY
+const RESEND_FROM = process.env.RESEND_FROM
+
+// Email notifications via Resend. Only registered when RESEND_API_KEY is set;
+// without it Medusa runs with no email provider (orders still complete, the
+// order-placed subscriber just logs a warning).
+const notificationModules = RESEND_API_KEY
+  ? [
+      {
+        resolve: "@medusajs/medusa/notification",
+        options: {
+          providers: [
+            {
+              resolve: "./src/modules/resend",
+              id: "resend",
+              options: {
+                channels: ["email"],
+                api_key: RESEND_API_KEY,
+                from: RESEND_FROM,
+              },
+            },
+          ],
+        },
+      },
+    ]
+  : []
 
 // Redis-backed infra modules are only registered when REDIS_URL is provided.
 // Without them, Medusa falls back to its default in-memory implementations.
@@ -96,6 +122,8 @@ module.exports = defineConfig({
         ],
       },
     },
+    // --- Email notifications: Resend (only when RESEND_API_KEY is set) -----
+    ...notificationModules,
     // --- Optional Redis infra (only when REDIS_URL is set) ----------------
     ...redisModules,
   ],
